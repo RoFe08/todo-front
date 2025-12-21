@@ -1,6 +1,4 @@
-# =========
-# Build
-# =========
+# ---------- build ----------
 FROM node:20-alpine AS build
 WORKDIR /app
 
@@ -10,21 +8,17 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# =========
-# Runtime (Nginx)
-# =========
-FROM nginx:1.27-alpine
-WORKDIR /usr/share/nginx/html
+# ---------- runtime ----------
+FROM nginx:alpine
 
-# limpa conteúdo default
-RUN rm -rf ./*
+# Remove config default
+RUN rm /etc/nginx/conf.d/default.conf
 
-# Copia o build do Angular
-# (Ajuste "todo-front" se o nome do projeto no angular.json for diferente)
-COPY --from=build /app/dist/todo-front/browser ./
+# Copy nginx config
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Config do nginx com proxy /api
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+# Copy dist
+COPY --from=build /app/dist/todo-front /usr/share/nginx/html
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,19 +1,16 @@
 <div class="page">
-  <header class="header">
+  <header class="card header">
+    <section>
     <div class="headline">
       <h1>📌 Minhas tarefas ({{ totalCount() }})</h1>
       <p>Crie, edite e acompanhe o status das suas tasks.</p>
     </div>
 
-    <button mat-stroked-button (click)="refresh()">
-      <mat-icon>refresh</mat-icon>
-      Atualizar
-    </button>
-  </header>
-
-  <section class="card">
+  </section>
+  <section style="width: 100%;">
     <app-task-form (created)="onCreated()"></app-task-form>
   </section>
+  </header>
 
   <section class="card">
     <div class="list-header">
@@ -48,7 +45,7 @@
           @fadeSlide
         >
           <div class="task-top">
-            <div class="task-title">{{ t.title }}</div>
+            <div class="task-title">Titulo: {{ t.title }}</div>
 
             <div class="task-actions">
               <button mat-icon-button (click)="openEdit(t)" aria-label="Editar">
@@ -62,7 +59,7 @@
           </div>
 
           <div class="task-desc" *ngIf="t.description">
-            {{ t.description }}
+            Descrição: {{ t.description }}
           </div>
 
           <div class="task-bottom">

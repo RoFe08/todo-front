@@ -1,0 +1,28 @@
+<form class="task-form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="w">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="form.controls.title.touched && form.controls.title.invalid">
+        Informe um título (mín. 3 caracteres).
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline" class="w">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput rows="3" formControlName="description"></textarea>
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="PENDENTE">PENDENTE</mat-option>
+        <mat-option value="EM_PROGRESSO">EM_PROGRESSO</mat-option>
+        <mat-option value="CONCLUIDO">CONCLUIDO</mat-option>        
+      </mat-select>
+    </mat-form-field>
+  
+    <button mat-raised-button color="primary" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Salvando...' : 'Adicionar' }}
+    </button>
+  </form>
+  

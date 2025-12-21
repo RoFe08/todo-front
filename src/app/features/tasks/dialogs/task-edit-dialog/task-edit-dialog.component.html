@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Editar tarefa</h2>
+
+<div mat-dialog-content>
+  <form class="dialog-form" [formGroup]="form">
+    <mat-form-field appearance="outline" class="w">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput rows="3" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="PENDING">PENDENTE</mat-option>
+        <mat-option value="IN_PROGRESS">EM_PROGRESSO</mat-option>
+        <mat-option value="DONE">CONCLUIDO</mat-option> 
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="saving()">
+    {{ saving() ? 'Salvando...' : 'Salvar' }}
+  </button>
+</div>

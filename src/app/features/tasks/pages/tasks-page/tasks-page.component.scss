@@ -1,0 +1,199 @@
+/* =========================
+   Page layout
+========================= */
+.page {
+    display: grid;
+    gap: 16px;
+    max-width: 820px;
+    margin: 0 auto;
+    padding-bottom: 12px;
+  }
+  
+  /* =========================
+     Header
+  ========================= */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  
+    .headline {
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }
+  
+      p {
+        margin: 6px 0 0;
+        font-size: 13px;
+        opacity: 0.75;
+      }
+    }
+  }
+  
+  /* =========================
+     Card container
+  ========================= */
+  .card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 16px;
+    background: #fff;
+  }
+  
+  /* =========================
+     List header + filters
+  ========================= */
+  .list-header {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 8px;
+  
+    .list-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+  
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+  
+      .hint {
+        font-size: 12px;
+        opacity: 0.65;
+      }
+    }
+  }
+  
+  /* =========================
+     Filters (chips)
+  ========================= */
+  .filters {
+    margin-top: 4px;
+  
+    mat-chip-listbox {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  
+    mat-chip-option {
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+  }
+  
+  /* =========================
+     Cards list
+  ========================= */
+  .cards {
+    display: grid;
+    gap: 12px;
+  }
+  
+  /* =========================
+     Task card
+  ========================= */
+  .task-card {
+    border-radius: 16px;
+    padding: 12px 14px;
+    transition: box-shadow 120ms ease, transform 120ms ease;
+  
+    &:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+  }
+  
+  .task-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .task-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  .task-actions {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .task-desc {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.8;
+  }
+  
+  /* =========================
+     Bottom area
+  ========================= */
+  .task-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  
+  .task-date {
+    font-size: 11px;
+    opacity: 0.65;
+    white-space: nowrap;
+  }
+  
+  /* =========================
+     Status chips colors
+  ========================= */
+  .chip-pendente {
+    background-color: rgba(255, 193, 7, 0.18);
+    color: #8d6e00;
+  }
+  
+  .chip-progresso {
+    background-color: rgba(33, 150, 243, 0.16);
+    color: #0d47a1;
+  }
+  
+  .chip-concluido {
+    background-color: rgba(76, 175, 80, 0.18);
+    color: #1b5e20;
+  }
+  
+  /* =========================
+     Empty state
+  ========================= */
+  .empty {
+    padding: 22px;
+    text-align: center;
+    opacity: 0.75;
+  
+    .empty-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+  
+    .empty-sub {
+      font-size: 13px;
+    }
+  }
+  
+  /* =========================
+     Responsive (desktop)
+  ========================= */
+  @media (min-width: 768px) {
+    .page {
+      gap: 20px;
+    }
+  }
+  

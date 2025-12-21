@@ -1,0 +1,96 @@
+<div class="page">
+  <header class="header">
+    <div class="headline">
+      <h1>📌 Minhas tarefas ({{ totalCount() }})</h1>
+      <p>Crie, edite e acompanhe o status das suas tasks.</p>
+    </div>
+
+    <button mat-stroked-button (click)="refresh()">
+      <mat-icon>refresh</mat-icon>
+      Atualizar
+    </button>
+  </header>
+
+  <section class="card">
+    <app-task-form (created)="onCreated()"></app-task-form>
+  </section>
+
+  <section class="card">
+    <div class="list-header">
+      <div class="list-title">
+        <h2>Lista</h2>
+        <span class="hint">Filtre por status para focar no que importa</span>
+      </div>
+
+      <mat-progress-bar *ngIf="loading()" mode="indeterminate"></mat-progress-bar>
+
+      <div class="filters">
+        <mat-chip-listbox [value]="statusFilter()" (change)="setFilter($event.value)">
+          <mat-chip-option value="ALL">Todos</mat-chip-option>
+      
+          <mat-chip-option
+            *ngFor="let s of STATUS_OPTIONS"
+            [value]="s"
+            [class]="statusClass(s)"
+          >
+            {{ statusLabel(s) }}
+          </mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+      
+    </div>
+
+    <ng-container *ngIf="totalCount() > 0; else empty">
+      <div class="cards">
+        <mat-card
+          class="task-card"
+          *ngFor="let t of filteredTasks()"
+          @fadeSlide
+        >
+          <div class="task-top">
+            <div class="task-title">{{ t.title }}</div>
+
+            <div class="task-actions">
+              <button mat-icon-button (click)="openEdit(t)" aria-label="Editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button mat-icon-button color="warn" (click)="confirmDelete(t)" aria-label="Excluir">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="task-desc" *ngIf="t.description">
+            {{ t.description }}
+          </div>
+
+          <div class="task-bottom">
+            <mat-chip-set>
+              <mat-chip [class]="statusClass(t.status)">
+                {{ statusLabel(t.status) }}
+              </mat-chip>
+            </mat-chip-set>
+
+            <div class="task-date">
+              {{ t.createdAt | date:'dd/MM/yyyy HH:mm' }}
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </ng-container>
+
+    <ng-template #empty>
+      <div class="empty" @fadeSlide>
+        <div class="empty-title">
+          {{ statusFilter() === 'ALL' ? 'Nenhuma tarefa ainda' : 'Nenhuma tarefa com esse status' }}
+        </div>
+        <div class="empty-sub">
+          {{ statusFilter() === 'ALL'
+              ? 'Crie a primeira acima ✍️'
+              : 'Tente trocar o filtro ou criar uma nova tarefa.' }}
+        </div>
+      </div>
+    </ng-template>
+  </section>
+</div>

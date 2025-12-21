@@ -50,10 +50,27 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - name: Deploy on EC2 via SSM
-        uses: aws-actions/aws-ssm-send-command@v1
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
         with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
-          instance-ids: ${{ secrets.EC2_INSTANCE_ID }}
-          document-name: StefaniniDeployFrontend
+
+      - name: Deploy on EC2 via SSM Run Command
+        shell: bash
+        run: |
+          set -e
+
+          aws ssm send-command \
+            --document-name "StefaniniDeployFrontend" \
+            --targets "Key=instanceids,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --comment "Deploy frontend via docker compose" \
+            --parameters "appDir=${{ secrets.EC2_APP_DIR }}" \
+            --timeout-seconds 600 \
+            --max-concurrency "1" \
+            --max-errors "0"

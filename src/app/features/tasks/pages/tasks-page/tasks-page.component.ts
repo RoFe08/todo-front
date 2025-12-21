@@ -16,6 +16,7 @@ import { TaskFormComponent } from '../../components/task-form/task-form.componen
 import { TaskEditDialogComponent } from '../../dialogs/task-edit-dialog/task-edit-dialog.component';
 import { ConfirmDialogComponent } from '../../../../shared/ui/confirm-dialog/confirm-dialog.component';
 import { TASK_STATUS_CLASS, TASK_STATUS_LABEL } from '../../models/task-status.ui';
+import { AppHeaderComponent } from '../../../../shared/ui/app-header/app-header.component';
 
 @Component({
   selector: 'app-tasks-page',
@@ -28,7 +29,8 @@ import { TASK_STATUS_CLASS, TASK_STATUS_LABEL } from '../../models/task-status.u
     MatProgressBarModule,
     MatCardModule,
     MatChipsModule,
-    TaskFormComponent
+    TaskFormComponent,
+    AppHeaderComponent
   ],
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.scss',

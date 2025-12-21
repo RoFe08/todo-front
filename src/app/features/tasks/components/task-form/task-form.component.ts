@@ -20,8 +20,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-],
+  ],
   templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.scss'],
 })
 export class TaskFormComponent {
   private readonly fb = inject(FormBuilder);

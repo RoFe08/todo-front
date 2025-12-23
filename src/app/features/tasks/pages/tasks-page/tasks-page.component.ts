@@ -50,10 +50,8 @@ export class TasksPageComponent {
   private readonly api = inject(TaskApi);
   private readonly dialog = inject(MatDialog);
 
-  // options para o filtro (tipado, sem any no HTML)
   readonly STATUS_OPTIONS: TaskStatus[] = ['PENDING', 'IN_PROGRESS', 'DONE'];
 
-  // state
   readonly loading = signal(false);
   readonly tasks = signal<Task[]>([]);
   readonly statusFilter = signal<TaskStatus | 'ALL'>('ALL');

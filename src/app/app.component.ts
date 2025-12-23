@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, ViewChild, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthApi } from './auth/data/auth.api';
 import { AuthSession } from './auth/data/auth.session';
 
+import { trigger, transition, style, animate, query, group } from '@angular/animations';
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -21,6 +24,26 @@ import { AuthSession } from './auth/data/auth.session';
     MatButtonToggleModule,
     MatIconModule,
     MatButtonModule,
+  ],
+  animations: [
+    trigger('routeAnim', [
+      transition('* <=> *', [
+        query(':enter, :leave', [
+          style({ position: 'fixed', width: '100%' })
+        ], { optional: true }),
+  
+        group([
+          query(':leave', [
+            animate('160ms ease-in', style({ opacity: 0, transform: 'translateY(6px)' }))
+          ], { optional: true }),
+  
+          query(':enter', [
+            style({ opacity: 0, transform: 'translateY(10px)' }),
+            animate('220ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+          ], { optional: true }),
+        ]),
+      ]),
+    ]),
   ],
   template: `
     <!-- Top bar só quando logado -->
@@ -38,7 +61,9 @@ import { AuthSession } from './auth/data/auth.session';
     </mat-toolbar>
 
     <main class="content" [class.content--no-shell]="!showShell()">
-      <router-outlet />
+      <div class="route-wrap" [@routeAnim]="getRouteAnimation()">
+        <router-outlet #outlet="outlet"></router-outlet>
+      </div>
     </main>
 
     <!-- Footer (toggle) só quando logado -->
@@ -53,7 +78,7 @@ import { AuthSession } from './auth/data/auth.session';
           Tasks
         </mat-button-toggle>
 
-        <mat-button-toggle value="charts">
+        <mat-button-toggle value="dashboard">
           <mat-icon>bar_chart</mat-icon>
           Dashboard
         </mat-button-toggle>
@@ -102,14 +127,11 @@ export class AppComponent {
   private readonly auth = inject(AuthApi);
   readonly session = inject(AuthSession);
 
-  // controla o toggle selecionado
   current = 'tasks';
 
-  // mostra header/footer apenas se estiver logado
   readonly showShell = computed(() => !!this.session.user());
 
   constructor() {
-    // mantém current sincronizado com a rota
     this.router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd)
@@ -120,6 +142,13 @@ export class AppComponent {
         else if (url.startsWith('/tasks')) this.current = 'tasks';
       });
   }
+
+  @ViewChild(RouterOutlet) outlet!: RouterOutlet;
+
+  getRouteAnimation(): string {
+    return this.router.url;
+  }
+  
 
   navigate(route: string) {
     this.current = route;

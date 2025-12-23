@@ -38,7 +38,7 @@ export class TaskFormComponent {
   readonly form = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
     description: [''],
-    status: ['PENDING' as const, [Validators.required]],
+    status: [{ value: 'PENDING' as const, disabled: true }, [Validators.required]],
   });
 
   submit(): void {

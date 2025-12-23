@@ -4,17 +4,20 @@ import { TokenStorage } from '../data/token.storage';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = inject(TokenStorage).get();
+  if (!token) return next(req);
 
-  // Não injeta token no /api/auth
-  const isApi = req.url.startsWith('/api/');
-  const isAuth = req.url.startsWith('/api/auth/');
-  if (!isApi || isAuth || !token) return next(req);
+  const url = new URL(req.url, window.location.origin);
+  const path = url.pathname;
+
+  const isApi = path.startsWith('/api/');
+  const isAuth = path.startsWith('/api/auth/');
+
+  if (!isApi || isAuth) return next(req);
+  console.log('REQ', req.url, 'TOKEN?', !!token);
 
   return next(
     req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
+      setHeaders: { Authorization: `Bearer ${token}` },
     })
   );
 };

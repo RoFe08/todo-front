@@ -1,0 +1,48 @@
+<div class="page">
+    <header class="header">
+      <div class="headline">
+        <h1>📊 Dashboard</h1>
+        <p>Visão geral das tasks com gráficos.</p>
+      </div>
+
+    </header>
+  
+    <mat-progress-bar *ngIf="loading()" mode="indeterminate"></mat-progress-bar>
+  
+    <section class="kpis">
+      <div class="kpi">
+        <div class="kpi-label">Total</div>
+        <div class="kpi-value">{{ total() }}</div>
+      </div>
+  
+      <div class="kpi">
+        <div class="kpi-label">Pendentes</div>
+        <div class="kpi-value">{{ statusCounts().PENDING }}</div>
+      </div>
+  
+      <div class="kpi">
+        <div class="kpi-label">Em progresso</div>
+        <div class="kpi-value">{{ statusCounts().IN_PROGRESS }}</div>
+      </div>
+  
+      <div class="kpi">
+        <div class="kpi-label">Concluídas</div>
+        <div class="kpi-value">{{ statusCounts().DONE }}</div>
+      </div>
+    </section>
+  
+    <div class="grid">
+      <mat-card class="card">
+        <mat-card-title>Por status</mat-card-title>
+        <mat-card-subtitle>Distribuição atual</mat-card-subtitle>
+        <div id="chartStatus" class="chart"></div>
+      </mat-card>
+  
+      <mat-card class="card">
+        <mat-card-title>Criadas por dia</mat-card-title>
+        <mat-card-subtitle>Últimos 7 dias</mat-card-subtitle>
+        <div id="chartDaily" class="chart"></div>
+      </mat-card>
+    </div>
+  </div>
+  
